@@ -3,14 +3,15 @@ import time
 import json
 import importlib.util
 
-# Configuración de la ruta para la importación dinámica del módulo backend
-ruta_backend = os.path.join(os.getcwd(), "UNIFICADO.py")
+# !!! CAMBIO CLAVE AQUÍ: Apuntar al nuevo archivo del backend !!!
+ruta_backend = os.path.join(os.getcwd(), "UNIFICADO 2.0.py")
 
 try:
-    spec = importlib.util.spec_from_file_location("UNIFICADO", ruta_backend)
+    # Cambiamos el nombre del spec para que coincida con la versión 2.0
+    spec = importlib.util.spec_from_file_location("UNIFICADO_2", ruta_backend)
     bk = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(bk)
-    print("[Integración] Módulo central 'UNIFICADO.py' acoplado con éxito.")
+    print("[Integración] Módulo central 'UNIFICADO 2.0.py' acoplado con éxito.")
 except Exception as e:
     print(f"[Error Crítico] No se pudo cargar el componente de backend: {e}")
     exit()
