@@ -3,11 +3,10 @@ import time
 import json
 import importlib.util
 
-# !!! CAMBIO CLAVE AQUÍ: Apuntar al nuevo archivo del backend !!!
+# Apuntar al nuevo archivo del backend
 ruta_backend = os.path.join(os.getcwd(), "UNIFICADO 2.0.py")
 
 try:
-    # Cambiamos el nombre del spec para que coincida con la versión 2.0
     spec = importlib.util.spec_from_file_location("UNIFICADO_2", ruta_backend)
     bk = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(bk)
@@ -84,8 +83,23 @@ if __name__ == "__main__":
             latencia_ms = calcular_latencia_usb(unidad_real)
             print(f"Latencia promedio estimada: {latencia_ms} ms")
             
+            # === INTEGRACIÓN CON CIBERSEGURIDAD BLINDADA ===
+            print("[Fase 2] Solicitando auditoría de seguridad para la unidad...")
+            alertas_usb = []
+            
+            # Intentamos llamarla del backend; si da error, usamos la lógica de respaldo local
+            if hasattr(bk, 'auditar_seguridad_usb'):
+                alertas_usb = bk.auditar_seguridad_usb(unidad_real)
+            else:
+                # Réplica exacta de la función de ciberseguridad para evitar caídas
+                ruta_autorun = os.path.join(unidad_real, "autorun.inf")
+                if os.path.exists(ruta_autorun):
+                    alertas_usb.append(("ALTO", f"Dispositivo USB en {unidad_real} - ¡Amenaza detectada: archivo autorun.inf sospechoso!"))
+                else:
+                    alertas_usb.append(("INFO", f"Dispositivo USB en {unidad_real} conectado - Seguro (Sin amenazas detectadas)"))
+            
             print("\n=======================================================")
-            print("===          REPORTE FINAL ESTRUCTURADO (JSON)       ===")
+            print("===          REPORTE FINAL DE RENDIMIENTO           ===")
             print("=======================================================")
             
             # Extraemos la velocidad usando la llave exacta de tu diccionario de retorno
@@ -93,14 +107,20 @@ if __name__ == "__main__":
             if isinstance(resultado_velocidad, dict) and "velocidad_mb_s" in resultado_velocidad:
                 velocidad_calculada = resultado_velocidad["velocidad_mb_s"]
             
-            reporte_final = {
-                "dispositivo_detectado": unidad_real,
-                "rendimiento_dinamico_usb": {
-                    "velocidad_transferencia_escritura_mb_s": velocidad_calculada,
-                    "latencia_acceso_hardware_ms": latencia_ms
-                }
-            }
-            print(json.dumps(reporte_final, indent=4))
+            # Impresión limpia sin llaves de JSON
+            print(f"Dispositivo analizado: {unidad_real}")
+            print(f"Velocidad de escritura estable: {velocidad_calculada} MB/s")
+            print(f"Latencia promedio de acceso: {latencia_ms} ms")
+            
+            # Desplegar los resultados del módulo de ciberseguridad
+            if alertas_usb:
+                for nivel, msg in alertas_usb:
+                    print(f"Auditoría de Seguridad: [{nivel}] {msg}")
+            else:
+                print("Auditoría de Seguridad: [OK] No se detectaron amenazas en el volumen.")
+                
+            print("\n[Estatus] Análisis de rendimiento y seguridad completado con éxito.")
+            print("=======================================================")
         else:
             print("\n[Estatus] El controlador no identificó ningún dispositivo USB activo.")
             print("Verifique la conexión física de la unidad e intente nuevamente.")
