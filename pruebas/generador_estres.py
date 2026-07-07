@@ -5,22 +5,22 @@ import time
 evento_detener_estres = threading.Event()
 
 def bucle_estres_cpu(duracion_segundos=15):
-    print("[Rendimiento] Hilo de estrés de CPU iniciado.")
+    print("Hilo de estrés de CPU iniciado.")
     tiempo_inicio = time.time()
     contador = 0
     
-    # El bucle corre solo mientras no se active el evento de parada y no pase el tiempo límite
+    # El bucle corre solo mientras no se active el evento de parada y no pase el tiempo limite
     while not evento_detener_estres.is_set():
         contador += 1
         if contador % 1000000 == 0:
-            # Validamos si ya se cumplió el tiempo asignado
+            # Validamos si ya se cumplio el tiempo asignado
             if time.time() - tiempo_inicio >= duracion_segundos:
                 break
                 
-    print("[Rendimiento] Estrés de CPU finalizado con éxito.")
+    print("Estrés de CPU finalizado con éxito.")
 
 def simular_consumo_ram(megabytes_a_consumir=250, duracion_segundos=15):
-    print("[Rendimiento] Forzando consumo controlado de", megabytes_a_consumir, "MB de RAM...")
+    print("Forzando consumo controlado de", megabytes_a_consumir, "MB de RAM...")
     
     try:
         # Reservamos la memoria de forma segura
@@ -34,21 +34,21 @@ def simular_consumo_ram(megabytes_a_consumir=250, duracion_segundos=15):
             time.sleep(0.5)  # Respiro para el hilo
             
     except Exception as e:
-        print("[Rendimiento] Error al reservar memoria:", str(e))
+        print("Error al reservar memoria:", str(e))
     finally:
         if 'bloque_memoria' in locals():
             del bloque_memoria
-        print("[Rendimiento] Simulación terminada, RAM liberada.")
+        print("Simulación terminada, RAM liberada.")
 
 def iniciar_simulacion_comportamiento(duracion=15, ram_mb=200):
     """
-    Función principal que llamarán tus compañeros desde el main.py o la GUI.
-    Controla el tiempo de ejecución de las pruebas asíncronas.
+    Funcion principal que llamaran mis compañeros desde el main.py o la GUI.
+    Controla el tiempo de ejecucion de las pruebas asincronas.
     """
     # Reiniciamos el estado del evento de parada
     evento_detener_estres.clear()
     
-    # Creamos los hilos pasando los argumentos de duración de forma unificada
+    # Creamos los hilos pasando los argumentos de duracion de forma unificada
     hilo_cpu = threading.Thread(
         target=bucle_estres_cpu, 
         args=(duracion,), 
@@ -71,11 +71,11 @@ def iniciar_simulacion_comportamiento(duracion=15, ram_mb=200):
 
 def detener_simulacion_inmediatamente():
     """
-    ¡Función clave para la Interfaz! 
+    ¡Funcion clave para la Interfaz! 
     Si el usuario presiona 'Detener' en la app, esto apaga los procesos al instante.
     """
     evento_detener_estres.set()
-    print("[Rendimiento] Señal de parada enviada a los módulos de estrés.")
+    print("Señal de parada enviada a los módulos de estrés.")
 
 # Area de testeo local para verificar el comportamiento unificado
 if __name__ == "__main__":
