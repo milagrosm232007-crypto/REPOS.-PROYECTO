@@ -2,12 +2,12 @@ import os
 import time
 
 def medir_velocidad_usb(ruta_usb, tamano_mb=50):
-    print("--- Iniciando prueba de rendimiento I/O en:", ruta_usb, "---")
+    print("Iniciando prueba de rendimiento I/O en:", ruta_usb)
     
     ruta_origen = "archivo_temporal.tmp"
     ruta_destino = os.path.join(ruta_usb, "prueba_memguard.tmp")
     
-    # Bloque modular de 1 MB para proteger la medición de RAM del backend
+    # Bloque modular de 1 MB para proteger la medicion de RAM del backend
     bloque_un_mb = b"0" * (1024 * 1024)
     
     try:
@@ -29,7 +29,7 @@ def medir_velocidad_usb(ruta_usb, tamano_mb=50):
         print("Escritura completada en:", round(tiempo_total, 2), "segundos.")
         print("Velocidad de transferencia calculada:", round(velocidad, 2), "MB/s")
         
-        # Devolvemos los datos estructurados para la integración total del programa
+        # Devolvemos los datos estructurados para la integracion total del programa
         return {
             "estado": "Exitoso",
             "tiempo_segundos": round(tiempo_total, 2),
@@ -43,7 +43,7 @@ def medir_velocidad_usb(ruta_usb, tamano_mb=50):
         }
         
     finally:
-        # Limpieza automática del almacenamiento
+        # Limpieza automatica del almacenamiento
         if os.path.exists(ruta_origen):
             os.remove(ruta_origen)
         if os.path.exists(ruta_destino):
