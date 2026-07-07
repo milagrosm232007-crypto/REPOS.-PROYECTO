@@ -6,17 +6,17 @@ def medir_latencia_usb(ruta_usb):
     Mide el tiempo de respuesta inmediato (latencia) del hardware
     al realizar operaciones ultracortas de apertura y cierre.
     """
-    print("--- Midiendo latencia de respuesta en:", ruta_usb, "---")
+    print("Midiendo latencia de respuesta en:", ruta_usb)
     archivo_latencia = os.path.join(ruta_usb, "test_latencia.tmp")
     
     tiempos = []
     
     try:
-        # Hacemos 5 micro-escrituras rápidas para promediar
+        # Hacemos 5 micro-escrituras rapidas para promediar
         for _ in range(5):
             inicio = time.time()
             
-            # Operación ultra rápida: solo abrir y escribir 1 byte
+            # Operacion ultra rapida: solo abrir y escribir 1 byte
             with open(archivo_latencia, "wb") as f:
                 f.write(b"0")
                 
@@ -32,7 +32,7 @@ def medir_latencia_usb(ruta_usb):
         return {
             "estado": "Exitoso",
             "latencia_ms": round(latencia_promedio_ms, 2),
-            "calificacion": "Excelente" if latencia_promedio_ms < 15 else "Lenta (Posible desgaste)"
+            "calificacion": "Excelente" if latencia_promedio_ms < 15 else "Lenta"
         }
         
     except Exception as e:
