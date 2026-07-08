@@ -1,19 +1,7 @@
 import os
 import time
 import json
-import importlib.util
-
-# Apuntar al nuevo archivo del backend
-ruta_backend = os.path.join(os.getcwd(), "UNIFICADO 2.0.py")
-
-try:
-    spec = importlib.util.spec_from_file_location("UNIFICADO_2", ruta_backend)
-    bk = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(bk)
-    print("[Integración] Módulo central 'UNIFICADO 2.0.py' acoplado con éxito.")
-except Exception as e:
-    print(f"[Error Crítico] No se pudo cargar el componente de backend: {e}")
-    exit()
+import backend as bk
 
 # Importación de la rutina de diagnóstico de rendimiento disponible
 from pruebas.prueba_rendimiento import medir_velocidad_usb
